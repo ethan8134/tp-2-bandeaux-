@@ -45,9 +45,9 @@ public class ExempleDeScenario {
         Bandeau b3 = new Bandeau();
         System.out.println("CTRL+C pour terminer le programme");
 
-        s1.playOnThread(b1);
-        s2.playOnThread(b2);
-        s3.playOnThread(b3);
+        s1.playOn(b1, true); // Si useThread est true, le scénario est exécuté dans un thread séparé
+        s2.playOn(b2, true);
+        s3.playOn(b3, true);
 
         // Temporisation avant modification
         try {

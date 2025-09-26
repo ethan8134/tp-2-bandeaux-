@@ -15,6 +15,7 @@ class ScenarioElement {
         repeats = r;
     }
 }
+
 /**
  * Un scenario mémorise une liste d'effets, et le nombre de repetitions pour chaque effet
  * Un scenario sait se jouer sur un bandeau.
@@ -34,29 +35,27 @@ public class Scenario {
     }
 
     /**
-     * Jouer ce scenario sur un bandeau
-     *
-     * @param b le bandeau ou s'afficher.
-     */
-    public void playOn(Bandeau b) {
-        for (ScenarioElement element : myElements) {
-            for (int repeats = 0; repeats < element.repeats; repeats++) {
-                element.effect.playOn(b);
-            }
-        }
-    }
-
-    /**
-     * Joue le scénario sur un bandeau dans un thread séparé.
+     * Jouer ce scenario sur un bandeau, avec ou sans thread.
      *
      * @param bandeau Le bandeau sur lequel jouer le scénario
+     * @param useThread Si true, le scénario sera exécuté dans un thread séparé
      */
-    public void playOnThread(Bandeau bandeau) {
-        Thread thread = new Thread(() -> {
+    public void playOn(Bandeau bandeau, boolean useThread) {
+        Runnable task = () -> {
             synchronized (this) {
-                this.playOn(bandeau);
+                for (ScenarioElement element : myElements) {
+                    for (int repeats = 0; repeats < element.repeats; repeats++) {
+                        element.effect.playOn(bandeau);
+                    }
+                }
             }
-        });
-        thread.start();
+        };
+
+        if (useThread) {
+            Thread thread = new Thread(task);
+            thread.start();
+        } else {
+            task.run();
+        }
     }
 }
