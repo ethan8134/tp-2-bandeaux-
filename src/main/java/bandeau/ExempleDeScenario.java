@@ -46,7 +46,9 @@ public class ExempleDeScenario {
         System.out.println("CTRL+C pour terminer le programme");
 
         s1.playOn(b1, true); // Si useThread est true, le scénario est exécuté dans un thread séparé
-        s2.playOn(b2, true);
+        // s1.playOn(b3, true);
+        s2.playOn(b2, true); // Si useThread est false, le scénario est exécuté dans le thread courant (bloquant) et le programme attend que le scénario se termine pour lancer la suite
+        //s2.playOn(b2, false);
         s3.playOn(b3, true);
 
         // Temporisation avant modification
