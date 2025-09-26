@@ -45,41 +45,15 @@ public class ExempleDeScenario {
         Bandeau b3 = new Bandeau();
         System.out.println("CTRL+C pour terminer le programme");
 
-        // On doit jouer le scénario en même temps sur plusieurs bandeaux :
-        Thread thread1 = new Thread(() -> playScenarioSafely(s1, b1));
-        Thread thread2 = new Thread(() -> playScenarioSafely(s2, b2));
-        Thread thread3 = new Thread(() -> playScenarioSafely(s3, b3));
-
-        thread1.start();
-        thread2.start();
-        thread3.start();
+        s1.playOnThread(b1);
+        s2.playOnThread(b2);
+        s3.playOnThread(b3);
 
         // Temporisation avant modification
         try {
             Thread.sleep(10000); // Attendre 10 secondes avant de modifier le scénario
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
-
-        try {
-            thread1.join();
-            thread2.join();
-            thread3.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    /**
-     * Joue un scénario sur un bandeau de manière sécurisée (un seul scénario à la fois par bandeau).
-     *
-     * @param scenario Le scénario à jouer
-     * @param bandeau  Le bandeau sur lequel jouer le scénario
-     */
-    private static void playScenarioSafely(Scenario scenario, Bandeau bandeau) {
-        synchronized (scenario) {
-            scenario.playOn(bandeau);
         }
     }
 }

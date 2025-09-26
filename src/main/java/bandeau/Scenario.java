@@ -45,4 +45,18 @@ public class Scenario {
             }
         }
     }
+
+    /**
+     * Joue le scénario sur un bandeau dans un thread séparé.
+     *
+     * @param bandeau Le bandeau sur lequel jouer le scénario
+     */
+    public void playOnThread(Bandeau bandeau) {
+        Thread thread = new Thread(() -> {
+            synchronized (this) {
+                this.playOn(bandeau);
+            }
+        });
+        thread.start();
+    }
 }
